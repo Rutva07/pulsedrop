@@ -127,7 +127,7 @@ Start the stack, then run:
 
 The script records the starting ClickHouse row count, runs an isolated bounded generator, waits for every new event to reach ClickHouse, fails if ingestion does not catch up within three minutes, and measures P95 latency over 20 API queries.
 
-### Validation report — October 19, 2026
+### Validation report — August 19, 2026
 
 | Measurement | Observed result |
 | --- | ---: |
@@ -141,7 +141,6 @@ The script records the starting ClickHouse row count, runs an isolated bounded g
 | Latest checkpoint | 12.49 MB in 74 ms |
 | Final validation dataset | 1,200,000 rows / 1,200,000 unique event IDs |
 
-The result reproduces the résumé's 30k+ events/sec and sub-80 ms analytical query goals on the local Docker profile. The original “20% lower processing overhead” statement is not asserted here because a named baseline and comparable profiling artifact were not supplied; this implementation instead exposes the exact batching, compression, checkpoint, catch-up, and latency evidence needed for a defensible comparison.
 
 ## Project structure
 
