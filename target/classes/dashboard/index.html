@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="PulseDrop real-time streaming analytics dashboard" />
+    <title>PulseDrop · Live Streaming Analytics</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="PulseDrop home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span><strong>Pulse</strong>Drop</span>
+      </a>
+      <nav aria-label="System links">
+        <a href="http://localhost:8081" target="_blank" rel="noreferrer">Flink console</a>
+        <a href="/health">API health</a>
+      </nav>
+      <div class="live-pill"><span></span><strong id="connection-label">Connecting</strong></div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">REAL-TIME PLAYBACK INTELLIGENCE</p>
+          <h1>See every stream.<br /><span>Understand every moment.</span></h1>
+          <p>PulseDrop turns raw player telemetry into live quality, engagement, and reliability signals.</p>
+        </div>
+        <div class="hero-meta">
+          <span>Last refresh</span>
+          <strong id="last-refresh">—</strong>
+          <small>Auto-refreshes every 5 seconds</small>
+        </div>
+      </section>
+
+      <section class="topology" aria-label="Data pipeline topology">
+        <div class="node"><span class="node-icon">⇣</span><small>INGESTION</small><strong>Kafka</strong><em id="ingestion-rate">0 events/s</em></div>
+        <div class="flow"><i></i><i></i><i></i><i></i></div>
+        <div class="node"><span class="node-icon">⌁</span><small>PROCESSING</small><strong>Apache Flink</strong><em>5s event-time windows</em></div>
+        <div class="flow"><i></i><i></i><i></i><i></i></div>
+        <div class="node"><span class="node-icon">◉</span><small>ANALYTICS</small><strong>ClickHouse</strong><em id="query-latency">— query latency</em></div>
+      </section>
+
+      <section class="kpi-grid" aria-label="Current platform metrics">
+        <article class="kpi kpi-featured">
+          <div><small>EVENT THROUGHPUT</small><span class="trend">LIVE</span></div>
+          <strong id="events-rate">0</strong>
+          <p>events / second</p>
+          <div class="spark" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </article>
+        <article class="kpi">
+          <div><small>ACTIVE VIEWERS</small><span class="dot-cyan"></span></div>
+          <strong id="active-viewers">0</strong>
+          <p>unique in 5 minutes</p>
+        </article>
+        <article class="kpi">
+          <div><small>AVERAGE BUFFER</small><span class="dot-orange"></span></div>
+          <strong id="buffer-time">0 ms</strong>
+          <p>per playback event</p>
+        </article>
+        <article class="kpi">
+          <div><small>ERROR RATE</small><span class="dot-violet"></span></div>
+          <strong id="error-rate">0.00%</strong>
+          <p>last 60 seconds</p>
+        </article>
+      </section>
+
+      <section class="analytics-grid">
+        <article class="panel chart-panel">
+          <div class="panel-head">
+            <div><small>EVENT VOLUME</small><h2>Playback telemetry</h2></div>
+            <div class="legend"><span class="cyan">Events</span><span class="violet">Viewers</span></div>
+          </div>
+          <div class="chart-wrap"><canvas id="events-chart" aria-label="Events and viewers over the last ten minutes"></canvas></div>
+        </article>
+
+        <article class="panel quality-panel">
+          <div class="panel-head"><div><small>STREAM HEALTH</small><h2>Quality signals</h2></div></div>
+          <div class="ring-row">
+            <div class="ring" id="engagement-ring"><div><strong id="engagement">0%</strong><span>Engaged</span></div></div>
+            <div class="quality-stats">
+              <p><span>Rebuffer ratio</span><strong id="rebuffer-rate">0.00%</strong></p>
+              <p><span>Pipeline state</span><strong id="pipeline-state">Starting</strong></p>
+              <p><span>Storage query</span><strong id="storage-latency">—</strong></p>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel table-panel">
+          <div class="panel-head">
+            <div><small>LAST 5 MINUTES</small><h2>Top content</h2></div>
+            <span class="window-badge">5m window</span>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Content</th><th>Events</th><th>Viewer windows</th><th>Engagement</th><th>Errors</th></tr></thead>
+              <tbody id="content-rows"><tr><td colspan="5" class="empty">Waiting for telemetry…</td></tr></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer><span>PulseDrop</span><p>Kafka → Flink → ClickHouse · Built for high-throughput playback analytics</p><code>API v1</code></footer>
+    <script src="/app.js" defer></script>
+  </body>
+</html>
